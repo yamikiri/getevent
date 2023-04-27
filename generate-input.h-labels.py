@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #
 # Copyright (C) 2015 The Android Open Source Project
 #
@@ -75,11 +75,11 @@ Collect('/usr/include/linux/input.h')
 Collect('/usr/include/linux/input-event-codes.h')
 
 def Dump(struct_name, values):
-  print 'static struct label %s[] = {' % (struct_name)
+  print ('static struct label %s[] = {' % (struct_name))
   for value in values:
-    print '    LABEL(%s),' % (value)
-  print '    LABEL_END,'
-  print '};'
+    print('    LABEL(%s),' % (value))
+  print('    LABEL_END,')
+  print('};')
 
 Dump("input_prop_labels", input_prop_list)
 Dump("ev_labels", ev_list)
