@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 #
 # Copyright (C) 2015 The Android Open Source Project
 #
@@ -36,39 +36,43 @@ ff_list = []
 
 r = re.compile(r'#define\s+(\S+)\s+((?:0x)?\d+)')
 
-with open('/usr/arm-linux-gnueabihf/include/linux/input.h', 'r') as f:
-  for line in f:
-    m = r.match(line)
-    if m:
-      name = m.group(1)
-      if name.startswith("INPUT_PROP_"):
-        input_prop_list.append(name)
-      elif name.startswith("EV_"):
-        ev_list.append(name)
-      elif name.startswith("SYN_"):
-        syn_list.append(name)
-      elif name.startswith("KEY_") or name.startswith("BTN_"):
-        key_list.append(name)
-      elif name.startswith("REL_"):
-        rel_list.append(name)
-      elif name.startswith("ABS_"):
-        abs_list.append(name)
-      elif name.startswith("SW_"):
-        sw_list.append(name)
-      elif name.startswith("MSC_"):
-        msc_list.append(name)
-      elif name.startswith("LED_"):
-        led_list.append(name)
-      elif name.startswith("REP_"):
-        rep_list.append(name)
-      elif name.startswith("SND_"):
-        snd_list.append(name)
-      elif name.startswith("MT_TOOL_"):
-        mt_tool_list.append(name)
-      elif name.startswith("FF_STATUS_"):
-        ff_status_list.append(name)
-      elif name.startswith("FF_"):
-        ff_list.append(name)
+def Collect(pathname):
+  with open(pathname, 'r') as f:
+    for line in f:
+      m = r.match(line)
+      if m:
+        name = m.group(1)
+        if name.startswith("INPUT_PROP_"):
+          input_prop_list.append(name)
+        elif name.startswith("EV_"):
+          ev_list.append(name)
+        elif name.startswith("SYN_"):
+          syn_list.append(name)
+        elif name.startswith("KEY_") or name.startswith("BTN_"):
+          key_list.append(name)
+        elif name.startswith("REL_"):
+          rel_list.append(name)
+        elif name.startswith("ABS_"):
+          abs_list.append(name)
+        elif name.startswith("SW_"):
+          sw_list.append(name)
+        elif name.startswith("MSC_"):
+          msc_list.append(name)
+        elif name.startswith("LED_"):
+          led_list.append(name)
+        elif name.startswith("REP_"):
+          rep_list.append(name)
+        elif name.startswith("SND_"):
+          snd_list.append(name)
+        elif name.startswith("MT_TOOL_"):
+          mt_tool_list.append(name)
+        elif name.startswith("FF_STATUS_"):
+          ff_status_list.append(name)
+        elif name.startswith("FF_"):
+          ff_list.append(name)
+
+Collect('/usr/include/linux/input.h')
+Collect('/usr/include/linux/input-event-codes.h')
 
 def Dump(struct_name, values):
   print 'static struct label %s[] = {' % (struct_name)
