@@ -271,7 +271,7 @@ static void print_event(int type, int code, int value, int print_flags)
         if (value_label)
             printf(" %-20.20s", value_label);
         else
-            printf(" %08x            ", value);
+            printf(" %08x  (%d)", value, value);
     } else {
         printf("%04x %04x %08x", type, code, value);
     }
